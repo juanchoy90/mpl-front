@@ -1,0 +1,20 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+
+    <div class="fadeIn first">
+      <img width="auto" height="100%" src="../assets/img/logo_transp.png" id="icon" alt="Mpl logo" />
+    </div>
+
+    <form novalidate (ngSubmit)="onSubmit()" [formGroup]="user">
+      <input type="text" id="login" class="fadeIn second" formControlName="id" name="login" placeholder="Usuario">
+      <input type="password" id="password" class="fadeIn third" name="login" formControlName="pw"
+        placeholder="Contraseña">
+      <button type="submit" class="fadeIn fourth">Iniciar sesion</button>
+      <ngx-spinner bdColor="rgba(255,88,0,0.8)" size="medium" color="#fff" type="timer" [fullScreen]="true">
+        <p style="color: white"> Por favor espere... </p>
+      </ngx-spinner>
+    </form>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
