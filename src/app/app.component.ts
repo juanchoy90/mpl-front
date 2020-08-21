@@ -33,39 +33,12 @@ export class AppComponent {
   onSubmit() {
     if (this.user.valid) {
       this.spinnerService.show();
-      this.apiService.get("login").then(result => {
-        this.spinnerService.hide();
-        if (result.session === '') {
-          Swal.fire({
-            title: 'Error!',
-            text: 'Credenciales incorrectas',
-            icon: 'error',
-            confirmButtonText: 'Continuar'
-          })
-        } else {
-          Swal.fire({
-            title: 'Tu sesion es '.concat(result.session),
-            width: 600,
-            padding: '3em',
-            background: '#fff',
-            backdrop: `
-              rgba(0,0,123,0.4)             
-              left top
-              no-repeat
-            `
-          })
-        }
-      }).catch(error => {
-        this.spinnerService.hide();
-        if (error.message === 'Timeout has occurred') {
-          Swal.fire({
-            title: 'Error!',
-            text: 'La conexion ha fallado, intentelo de nuevo',
-            icon: 'error',
-            confirmButtonText: 'Continuar'
-          })
-        }
-      })
+      let json={
+        "pw":this.user.get("pw").value,
+        "id":this.user.get("id").value
+      }
+
+      this.sendParams(json);
     } else {
       Swal.fire({
         title: 'Error!',
@@ -74,5 +47,52 @@ export class AppComponent {
         confirmButtonText: 'Continuar'
       })
     }
+  }
+
+
+  sendParams(body){
+    this.apiService.post("login",body).then(result => {
+      this.spinnerService.hide();
+      if (result.session === '') {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Credenciales incorrectas',
+          icon: 'error',
+          confirmButtonText: 'Continuar'
+        })
+      } else {
+        Swal.fire({
+          title: 'Tu sesion es '.concat(result.session),
+          width: 600,
+          padding: '3em',
+          background: '#fff',
+          backdrop: `
+            rgba(0,0,123,0.4)             
+            left top
+            no-repeat
+          `
+        })
+      }
+    }).catch(error => {
+      console.log(error);
+      this.spinnerService.hide();
+      if (error.message === 'Timeout has occurred') {
+        Swal.fire({
+          title: 'Error!',
+          text: 'La conexion ha fallado, intentelo de nuevo',
+          icon: 'error',
+          confirmButtonText: 'Continuar'
+        })
+      }else{
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error en el servidor',
+          icon: 'error',
+          confirmButtonText: 'Continuar'
+        })        
+      }
+    })
+
+    this.user.reset();
   }
 }

@@ -24,13 +24,14 @@ export class ApiRestProvider {
   }
 
   /**
-   * IMplementación del método get de http para consumo de servicios con autenticación
+   * IMplementación del método post de http para consumo de servicios con autenticación
    * @param path url a consumir
+   * @param body información a enviar en body
    */
-  async get(path): Promise<any> {
+  async post(path,body): Promise<any> {
     this.configBasicHeader();
     return this.http
-      .get(`${environment.serveUrl}${path}`,{ headers: this.contentHeaders.headers })
+      .post(`${environment.serveUrl}${path}`,body,{ headers: this.contentHeaders.headers })
       .pipe(    
         timeout(10000),     
         catchError(this.handleError)

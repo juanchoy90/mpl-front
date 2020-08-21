@@ -6,9 +6,20 @@
     </div>
 
     <form novalidate (ngSubmit)="onSubmit()" [formGroup]="user">
-      <input type="text" id="login" class="fadeIn second" formControlName="id" name="login" placeholder="Usuario">
-      <input type="password" id="password" class="fadeIn third" name="login" formControlName="pw"
-        placeholder="Contraseña">
+      <div class="form-group">
+        <input type="text" id="login" class="fadeIn second" formControlName="id" name="login" placeholder="Usuario">
+        <div class="alert alert-danger" *ngIf="user.get('id').hasError('required') && user.get('id').touched">
+          Usuario requerido
+        </div>
+
+      </div>
+      <div class="form-group">
+        <input type="password" id="password" class="fadeIn third" name="login" formControlName="pw"
+          placeholder="Contraseña">
+        <div class="alert alert-danger" *ngIf="user.get('pw').hasError('required') && user.get('pw').touched">
+          Contraseña requerido
+        </div>
+      </div>
       <button type="submit" class="fadeIn fourth">Iniciar sesion</button>
       <ngx-spinner bdColor="rgba(255,88,0,0.8)" size="medium" color="#fff" type="timer" [fullScreen]="true">
         <p style="color: white"> Por favor espere... </p>
